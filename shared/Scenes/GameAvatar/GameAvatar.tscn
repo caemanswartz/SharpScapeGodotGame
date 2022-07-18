@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://shared/Scenes/GameAvatar/Sprites/default.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://shared/Scenes/GameAvatar/GameAvatar.cs" type="Script" id=2]
 [ext_resource path="res://shared/Scenes/GameAvatar/Sprites/Kit_Cat.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://shared/Scenes/GameAvatar/Sprites/rat.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://shared/Scenes/GameAvatar/Sprites/worm.tres" type="SpriteFrames" id=5]
+[ext_resource path="res://shared/Scenes/GameAvatar/Sprites/Bird2.tres" type="SpriteFrames" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 19, 8 )
@@ -30,7 +31,6 @@ align = 1
 [node name="CharacterSprites" type="Position2D" parent="."]
 
 [node name="Default" type="AnimatedSprite" parent="CharacterSprites"]
-visible = false
 position = Vector2( 0, -28 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 1 )
@@ -44,6 +44,15 @@ position = Vector2( 6, -46 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 3 )
 animation = "run"
+frame = 2
+playing = true
+
+[node name="Bird2" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 9, -33.5 )
+scale = Vector2( 2.375, 2.21875 )
+frames = ExtResource( 6 )
+animation = "idle"
+frame = 1
 playing = true
 
 [node name="Rat" type="AnimatedSprite" parent="CharacterSprites"]
@@ -52,7 +61,6 @@ position = Vector2( 7, -57 )
 scale = Vector2( 3.65625, 3.65625 )
 frames = ExtResource( 4 )
 animation = "idle"
-frame = 3
 playing = true
 
 [node name="Worm" type="AnimatedSprite" parent="CharacterSprites"]
@@ -61,5 +69,5 @@ position = Vector2( -2, -28 )
 scale = Vector2( 1.88235, 1.75 )
 frames = ExtResource( 5 )
 animation = "run"
-frame = 3
+frame = 4
 playing = true
