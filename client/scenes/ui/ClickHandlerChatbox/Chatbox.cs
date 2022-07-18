@@ -52,10 +52,11 @@ public class Chatbox : PanelContainer
 
     private void SendChatMessage()
     {
-        if (_input.Text.Length == 0)
+        var sendText = _input.Text.Trim();
+        if (sendText.Length == 0)
             return;
 
-        var message = new MessageDto(MessageEvent.Message, _input.Text);
+        var message = new MessageDto(MessageEvent.Message, sendText);
         _client.SendData(Utils.ToJson(message));
 
         _input.Text = string.Empty;

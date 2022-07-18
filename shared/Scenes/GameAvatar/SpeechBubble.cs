@@ -4,42 +4,45 @@ using System;
 public class SpeechBubble : Node2D
 {
 	private Node2D _anchor;
-	private ColorRect _color_rect;
-	private RichTextLabel _rich_text_label;
+	private PanelContainer _background;
+	private RichTextLabel _message;
 	private Timer _timer;
 	private Tween _tween;
-	private const float CHAR_TIME = 0.05F;
-	private const float MARGIN = 8.0F;
+	private const float CHAR_TIME = 0.015F;
+	private const float MARGIN = 2.0F;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_anchor = GetNode<Node2D>("Anchor");
-		_color_rect = GetNode<ColorRect>("Anchor/ColorRect");
-		_rich_text_label = GetNode<RichTextLabel>("Anchor/RichTextLabel");
+		_background = GetNode<PanelContainer>("Anchor/Background");
+		_message = GetNode<RichTextLabel>("Anchor/Background/Message");
 		_timer = GetNode<Timer>("Timer");
 		_tween = GetNode<Tween>("Tween");
 		Visible = false;
 	}
 
-	public void SetText(string text, float wait_time=3.0F)
+	public void SetText(string text, float waitTime = 3.0F)
 	{
-		Visible = true;
-		_timer.WaitTime = wait_time;
+		Show();
+		_timer.WaitTime = waitTime;
 		_timer.Stop();
 		
-		_rich_text_label.Text = text;
+		_message.Text = text;
 
-		var text_size = _rich_text_label.GetFont("normal_font").GetStringSize(_rich_text_label.Text);
-		_rich_text_label.MarginRight = text_size.x + MARGIN;
-		_color_rect.MarginRight = text_size.x + MARGIN;
+		var textSize = _message.GetFont("normal_font").GetStringSize(_message.Text);
+		_message.MarginRight = textSize.x + MARGIN;
+		_background.MarginRight = textSize.x + MARGIN;
 
-		float duration = _rich_text_label.Text.Length() * CHAR_TIME; 
+		float duration = _message.Text.Length() * CHAR_TIME; 
+
+		float totalTextWidth = textSize.x + MARGIN * 2.0f;
+		float maxBackgroundWidth = Mathf.Min(GetViewport().Size.x * 0.75f, totalTextWidth);
 
 		_tween.RemoveAll();
-		_tween.InterpolateProperty(_rich_text_label,"percent_visible", 0.0, 1.0, duration);
-		_tween.InterpolateProperty(_color_rect,"margin_right", 0.0, text_size.x + MARGIN * 2.0, duration);
-		_tween.InterpolateProperty(_anchor,"position", Vector2.Zero, new Vector2(-text_size.x / 2.0F, 0.0F), duration);
+		_tween.InterpolateProperty(_message,"percent_visible", 0.0, 1.0, duration);
+		_tween.InterpolateProperty(_background,"margin_right", 15.0, maxBackgroundWidth, duration * maxBackgroundWidth / totalTextWidth);
+		_tween.InterpolateProperty(_anchor,"position", Vector2.Zero, new Vector2(-maxBackgroundWidth / 2.0F, 0.0F), duration * maxBackgroundWidth / totalTextWidth);
 		_tween.Start();
 	}
 
@@ -50,6 +53,9 @@ public class SpeechBubble : Node2D
 
 	private void _onTimerTimeout()
 	{
-		Visible = false;
+		Hide();
+		_message.MarginRight = 0f;
+		_background.MarginRight = 0f;
+		_anchor.Position = new Vector2();
 	}
 }
