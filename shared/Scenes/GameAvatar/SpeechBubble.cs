@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-
 public class SpeechBubble : Node2D
 {
 	private Node2D _anchor;

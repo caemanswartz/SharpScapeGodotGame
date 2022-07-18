@@ -14,6 +14,7 @@ public class GameAvatar : KinematicBody2D
 
 	private AnimatedSprite _characterSprite;
 	private Label _username;
+	private SpeechBubble _speech_bubble;
 	public string Username
 	{
 		get => _username.Text;
@@ -23,6 +24,7 @@ public class GameAvatar : KinematicBody2D
 	public override void _Ready()
 	{
 		_username = GetNode<Label>("Username");
+		_speech_bubble = GetNode<SpeechBubble>("SpeechBubble");
 		Destination = GlobalPosition;
 	}
 
@@ -72,5 +74,10 @@ public class GameAvatar : KinematicBody2D
 		
 		_characterSprite.Show();
 		_characterSprite.Play("idle");
+	}
+
+	public void SetText(string text, float duration)
+	{
+		_speech_bubble.SetText(text, duration);
 	}
 }
