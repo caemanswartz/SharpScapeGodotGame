@@ -5,7 +5,7 @@ public class SpeechBubble : Node2D
 {
 	private Node2D _anchor;
 	private PanelContainer _background;
-	private RichTextLabel _message;
+	private Label _message;
 	private Timer _timer;
 	private Tween _tween;
 	private const float CHAR_TIME = 0.015F;
@@ -16,7 +16,7 @@ public class SpeechBubble : Node2D
 	{
 		_anchor = GetNode<Node2D>("Anchor");
 		_background = GetNode<PanelContainer>("Anchor/Background");
-		_message = GetNode<RichTextLabel>("Anchor/Background/Message");
+		_message = GetNode<Label>("Anchor/Background/Message");
 		_timer = GetNode<Timer>("Timer");
 		_tween = GetNode<Tween>("Tween");
 		Visible = false;
@@ -34,15 +34,17 @@ public class SpeechBubble : Node2D
 		_message.MarginRight = textSize.x + MARGIN;
 		_background.MarginRight = textSize.x + MARGIN;
 
-		float duration = _message.Text.Length() * CHAR_TIME; 
+		float duration = _message.Text.Length() * CHAR_TIME;
 
 		float totalTextWidth = textSize.x + MARGIN * 2.0f;
 		float maxBackgroundWidth = Mathf.Min(GetViewport().Size.x * 0.75f, totalTextWidth);
+		float visibleWidthPercentage = maxBackgroundWidth / totalTextWidth;
+		float adjustedDuration = duration * visibleWidthPercentage;
 
 		_tween.RemoveAll();
-		_tween.InterpolateProperty(_message,"percent_visible", 0.0, 1.0, duration);
-		_tween.InterpolateProperty(_background,"margin_right", 15.0, maxBackgroundWidth, duration * maxBackgroundWidth / totalTextWidth);
-		_tween.InterpolateProperty(_anchor,"position", Vector2.Zero, new Vector2(-maxBackgroundWidth / 2.0F, 0.0F), duration * maxBackgroundWidth / totalTextWidth);
+		_tween.InterpolateProperty(_message,"percent_visible", 0.0, visibleWidthPercentage, adjustedDuration);
+		_tween.InterpolateProperty(_background,"margin_right", 15.0, maxBackgroundWidth, adjustedDuration);
+		_tween.InterpolateProperty(_anchor,"position", Vector2.Zero, new Vector2(-maxBackgroundWidth / 2.0F, 0.0F), adjustedDuration);
 		_tween.Start();
 	}
 

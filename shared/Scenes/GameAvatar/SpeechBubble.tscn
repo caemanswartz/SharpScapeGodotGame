@@ -21,7 +21,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -10.0
-margin_top = -39.0
+margin_top = -23.0
 margin_right = 10.0
 margin_bottom = -1.0
 rect_clip_content = true
@@ -29,19 +29,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 
-[node name="Message" type="RichTextLabel" parent="Anchor/Background"]
+[node name="Message" type="Label" parent="Anchor/Background"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 16.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 0, 30 )
+margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
-custom_colors/default_color = Color( 0.152941, 0.152941, 0.152941, 1 )
+custom_colors/font_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
-visible_characters = 0
-percent_visible = 0.0
-scroll_active = false
+valign = 1
+clip_text = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
